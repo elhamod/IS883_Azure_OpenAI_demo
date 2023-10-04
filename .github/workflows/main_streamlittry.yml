@@ -57,4 +57,4 @@ jobs:
           app-name: 'streamlitTry'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_27BB2ECD8754429097E61C1CD510599A }}
-          startup-command: 'python -m streamlit run streamlit_prototype.py --server.port 8000 --server.address 0.0.0.0' # This is the command to run your Streamlit app
+          # startup-command: 'python -m streamlit run streamlit_prototype.py --server.port 8000 --server.address 0.0.0.0' # This is the command to run your Streamlit app
