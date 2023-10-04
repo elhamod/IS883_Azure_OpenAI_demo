@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python app to Azure Web App - streamlitTry
 
 on:
@@ -32,13 +28,15 @@ jobs:
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
+      - name: Archive files
+        run: |
+          zip -r build.zip . -x venv/\*
+      
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
-          name: python-app
-          path: |
-            . 
-            !venv/
+          name: MyStreamlitApp
+          path: build.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,8 +49,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: python-app
+          name: MyStreamlitApp
           path: .
+          
+      - name: Set App Settings
+        # You might need to use a specific action or script to set these app settings
+        run: |
+          az webapp config appsettings set --name streamlitTry --settings ENABLE_ORYX_BUILD=1 SCM_DO_BUILD_DURING_DEPLOYMENT=1 POST_BUILD_COMMAND="pip install ."
           
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
@@ -61,3 +64,5 @@ jobs:
           app-name: 'streamlitTry'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6D572FA1C6CA47F6ACCF3D7827395811 }}
+          package: ./MyStreamlitApp.zip
+          startUpCommand: 'python -m streamlit run Home.py --server.port 8000 --server.address 0.0.0.0'
