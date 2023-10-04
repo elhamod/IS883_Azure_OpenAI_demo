@@ -55,7 +55,7 @@ jobs:
       - name: Set App Settings
         # You might need to use a specific action or script to set these app settings
         run: |
-          az webapp config appsettings set --name streamlitTry --settings ENABLE_ORYX_BUILD=1 SCM_DO_BUILD_DURING_DEPLOYMENT=1 POST_BUILD_COMMAND="pip install ."
+          az webapp config appsettings set --name streamlitTry --resource-group IS883 --settings ENABLE_ORYX_BUILD=1 SCM_DO_BUILD_DURING_DEPLOYMENT=1 POST_BUILD_COMMAND="pip install ."
           
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
