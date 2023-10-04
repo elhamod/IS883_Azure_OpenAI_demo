@@ -1,14 +1,11 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
-name: Build and deploy Python app to Azure Web App - streamlitTry
+name: Build and deploy Python Streamlit app to Azure Web App - streamlitTry
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +25,7 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
@@ -38,9 +35,6 @@ jobs:
           path: |
             . 
             !venv/
-
-    
-    
 
   deploy:
     runs-on: ubuntu-latest
@@ -63,3 +57,4 @@ jobs:
           app-name: 'streamlitTry'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_27BB2ECD8754429097E61C1CD510599A }}
+          startup-command: 'python -m streamlit run streamlit_prototype.py --server.port 8000 --server.address 0.0.0.0' # This is the command to run your Streamlit app
