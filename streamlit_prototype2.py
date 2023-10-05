@@ -3,7 +3,7 @@
 import streamlit as st
 import openai
 # Set up your OpenAI API key
-openai.api_key = "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"
+openai.api_key = "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"
 # Initialize Streamlit
 st.title("Azure Guide Chatbot")
 # Create a text input field for user queries
